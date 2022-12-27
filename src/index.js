@@ -1,4 +1,5 @@
 import './style.css';
-import newComponent from './modules/importModule';
+import { header, main } from './modules/createPage';
 
-document.body.appendChild(newComponent());
+document.body.appendChild(header());
+document.body.appendChild(main());
