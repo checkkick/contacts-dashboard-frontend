@@ -1,13 +1,17 @@
 import './style.css';
 import { header, main } from './modules/createPage';
-// import { getClients } from './modules/api';
+import modalCreateClient from './modules/modalCreateClient';
 
 (async () => {
   document.body.appendChild(header());
 
-  const { mainElement } = main();
+  const { mainElement, addClientBtn } = main();
+  const { modalAddClient } = modalCreateClient();
 
-  // const allClients = await getClients();
+  addClientBtn.addEventListener('click', () => {
+    modalAddClient.style.display = 'flex';
+  });
 
+  mainElement.append(modalAddClient);
   document.body.appendChild(mainElement);
 })();

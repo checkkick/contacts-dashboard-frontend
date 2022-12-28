@@ -101,5 +101,5 @@ export function main() {
   container.append(addClientBtn);
   mainElement.append(container);
 
-  return { mainElement, tableBody };
+  return { mainElement, tableBody, addClientBtn };
 }

@@ -19,6 +19,9 @@ html {
   --primary: #9873ff;
   --text-grey: #b0b0b0;
   --text-black: #333333;
+  --modal-background: rgba(51, 51, 51, 0.6);
+  --modal-grey: #c8c5d1;
+  --modal-input-border: rgba(200, 197, 209, 0.5);
 }
 
 .container {
@@ -135,4 +138,143 @@ html {
   font-size: 12px;
   line-height: 16px;
   color: var(--text-grey);
+}
+
+.modal-background {
+  z-index: 1;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: var(--modal-background);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  position: relative;
+  width: 100%;
+  max-width: 450px;
+  padding: 24px 30px 29px;
+  background-color: var(--white);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.modal__close {
+  padding: 0;
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+  position: absolute;
+  top: 22px;
+  right: 22px;
+  background: none;
+  outline: none;
+  border: none;
+}
+.modal__close::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: var(--modal-grey);
+  transform: rotate(45deg);
+  transform-origin: top;
+}
+.modal__close::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  top: 50%;
+  left: 0;
+  background-color: var(--modal-grey);
+  transform: rotate(-45deg);
+}
+
+.modal__title {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 25px;
+  color: var(--text-black);
+  margin: 0 0 32px 0;
+}
+
+.modal__input {
+  background: none;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid var(--modal-input-border);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+  color: var(--text-black);
+  margin-bottom: 32px;
+  padding: 0 0 4px 0;
+}
+.modal__input:last-child {
+  margin-bottom: 25px;
+}
+.modal__input::placeholder {
+  color: var(--text-grey);
+}
+
+.add-contact-btn {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background-color: rgba(200, 197, 209, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px 0;
+  margin: 0 -30px;
+  margin-bottom: 25px;
+}
+
+.add-contact-btn__title {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 19px;
+  color: var(--text-black);
+  margin: 0;
+}
+
+.save-btn {
+  align-self: center;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background-color: var(--primary);
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 19px;
+  color: var(--white);
+  margin-bottom: 5px;
+  padding: 13px 35px;
+}
+
+.cancel-btn {
+  align-self: center;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background: none;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  text-decoration-line: underline;
+  color: var(--text-black);
 }
