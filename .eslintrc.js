@@ -11,5 +11,6 @@ module.exports = {
     'no-iterator': 0,
     'no-restricted-syntax': [2, 'WithStatement'],
     'func-style': 0,
+    'operator-linebreak': 0,
   },
 };
