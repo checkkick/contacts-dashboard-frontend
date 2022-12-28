@@ -88,6 +88,7 @@ html {
   font-size: 24px;
   line-height: 33px;
   color: var(--text-black);
+  margin-bottom: 10px;
 }
 
 .add-button {
@@ -122,4 +123,16 @@ html {
 }
 .add-button:hover .add-button__title {
   color: var(--white);
+}
+
+.table {
+  margin-bottom: 40px;
+}
+
+.table__title {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--text-grey);
 }
