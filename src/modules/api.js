@@ -33,9 +33,12 @@ export async function addClient(body) {
     body,
   });
 
-  const data = await response.json();
+  if (response.status === 201) {
+    const data = await response.json();
+    return data;
+  }
 
-  return data;
+  return false;
 }
 
 export async function updateClient(id, body) {

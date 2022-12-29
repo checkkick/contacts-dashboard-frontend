@@ -12,5 +12,6 @@ module.exports = {
     'no-restricted-syntax': [2, 'WithStatement'],
     'func-style': 0,
     'operator-linebreak': 0,
+    'comma-dangle': 0,
   },
 };

@@ -1,6 +1,89 @@
+import Choices from 'choices.js';
+import 'choices.js/src/styles/choices.scss';
+import { addClient } from './api';
+
+let IdCounter = 0;
+let contactsArray = [];
+
+function createContact() {
+  IdCounter += 1;
+
+  const contact = document.createElement('div');
+  contact.classList.add('new-contact');
+
+  const selectContactType = document.createElement('select');
+  selectContactType.classList.add('new-contact__select');
+
+  const options = ['Телефон', 'Доп. телефон', 'Email', 'Vk', 'Facebook'];
+  options.forEach((item) => {
+    const optionElement = document.createElement('option');
+    optionElement.textContent = item;
+    selectContactType.options.add(optionElement);
+  });
+
+  contact.append(selectContactType);
+
+  // eslint-disable-next-line no-unused-vars
+  const choices = new Choices(selectContactType, {
+    allowHTML: true,
+    searchEnabled: false,
+    placeholder: true,
+    itemSelectText: '',
+  });
+
+  const inputContact = document.createElement('input');
+  inputContact.classList.add('new-contact__input');
+  inputContact.placeholder = 'Введите данные контакта';
+
+  contact.append(inputContact);
+
+  const deleteContact = document.createElement('button');
+  deleteContact.classList.add('new-contact__delete');
+  deleteContact.innerHTML =
+    '<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 0C2.682 0 0 2.682 0 6C0 9.318 2.682 12 6 12C9.318 12 12 9.318 12 6C12 2.682 9.318 0 6 0ZM6 10.8C3.354 10.8 1.2 8.646 1.2 6C1.2 3.354 3.354 1.2 6 1.2C8.646 1.2 10.8 3.354 10.8 6C10.8 8.646 8.646 10.8 6 10.8ZM8.154 3L6 5.154L3.846 3L3 3.846L5.154 6L3 8.154L3.846 9L6 6.846L8.154 9L9 8.154L6.846 6L9 3.846L8.154 3Z" fill="#B0B0B0"/></svg>';
+  deleteContact.style.display = 'none';
+
+  contact.append(deleteContact);
+
+  const itemContact = {
+    id: IdCounter,
+    type: selectContactType.value,
+    value: inputContact.value,
+  };
+  contactsArray.push(itemContact);
+
+  const indexOfContact = contactsArray.findIndex(
+    (n) => n.id === itemContact.id
+  );
+
+  // -------------------------------------------------------------
+  // События
+  selectContactType.addEventListener('change', () => {
+    itemContact.type = selectContactType.value;
+    contactsArray.splice(indexOfContact, 1, itemContact);
+  });
+
+  inputContact.addEventListener('change', () => {
+    itemContact.value = inputContact.value;
+    contactsArray.splice(indexOfContact, 1, itemContact);
+  });
+
+  inputContact.addEventListener('input', () => {
+    if (inputContact.value.length !== 0) {
+      deleteContact.style.display = 'block';
+    } else {
+      deleteContact.style.display = 'none';
+    }
+  });
+
+  return { contact, indexOfContact, deleteContact };
+}
+
+// -------------------------------------------------------------
 export default function modalCreateClient() {
   const modalAddClient = document.createElement('div');
   modalAddClient.classList.add('modal-background');
+  modalAddClient.style.display = 'none';
 
   const modalWindow = document.createElement('div');
   modalWindow.classList.add('modal');
@@ -20,20 +103,13 @@ export default function modalCreateClient() {
   name.placeholder = 'Имя*';
   modalWindow.append(name);
 
-  const secondname = document.createElement('input');
-  secondname.classList.add('modal__input');
-  secondname.placeholder = 'Отчество';
-  modalWindow.append(secondname);
+  const lastName = document.createElement('input');
+  lastName.classList.add('modal__input');
+  lastName.placeholder = 'Отчество';
+  modalWindow.append(lastName);
 
-  // Функция очистки полей и скрытия модального окна
-  function hideModalAddClient() {
-    modalAddClient.style.display = 'none';
-    surname.value = '';
-    name.value = '';
-    secondname.value = '';
-  }
-
-  hideModalAddClient();
+  const addContactContainer = document.createElement('div');
+  addContactContainer.classList.add('contacts-container');
 
   const addContact = document.createElement('button');
   addContact.classList.add('add-contact-btn');
@@ -42,26 +118,83 @@ export default function modalCreateClient() {
   const btnTitle = document.createElement('p');
   btnTitle.classList.add('add-contact-btn__title');
   btnTitle.textContent = 'Добавить контакт';
+
   addContact.append(btnTitle);
-  modalWindow.append(addContact);
+  addContactContainer.append(addContact);
+  modalWindow.append(addContactContainer);
 
   const saveBtn = document.createElement('button');
   saveBtn.classList.add('save-btn');
   saveBtn.textContent = 'Сохранить';
+
   modalWindow.append(saveBtn);
 
   const cancelBtn = document.createElement('button');
   cancelBtn.classList.add('cancel-btn');
   cancelBtn.textContent = 'Отмена';
-  cancelBtn.addEventListener('click', hideModalAddClient);
   modalWindow.append(cancelBtn);
 
   const closeModal = document.createElement('button');
   closeModal.classList.add('modal__close');
-  closeModal.addEventListener('click', hideModalAddClient);
   modalWindow.append(closeModal);
 
   modalAddClient.append(modalWindow);
+
+  // -------------------------------------------------------------
+  // Функция очистки полей и скрытия модального окна
+  function hideModalAddClient() {
+    modalAddClient.style.display = 'none';
+    surname.value = '';
+    name.value = '';
+    lastName.value = '';
+
+    document
+      .querySelectorAll('.new-contact')
+      .forEach((item) => addContactContainer.removeChild(item));
+
+    contactsArray = [];
+  }
+
+  // -------------------------------------------------------------
+  // События
+  addContact.addEventListener('click', () => {
+    const { contact, indexOfContact, deleteContact } = createContact();
+    const item = addContactContainer.insertBefore(contact, addContact);
+
+    deleteContact.addEventListener('click', () => {
+      contactsArray.splice(indexOfContact, 1);
+      addContactContainer.removeChild(item);
+
+      if (contactsArray.length < 10) {
+        saveBtn.disabled = false;
+      }
+    });
+
+    if (contactsArray.length >= 10) {
+      saveBtn.disabled = true;
+    }
+  });
+
+  saveBtn.addEventListener('click', async () => {
+    contactsArray.forEach((item) => delete item.id);
+
+    const data = {
+      name: name.value,
+      surname: surname.value,
+      lastName: lastName.value,
+      contacts: contactsArray,
+    };
+
+    const response = await addClient(JSON.stringify(data));
+
+    if (response) {
+      hideModalAddClient();
+    }
+  });
+
+  cancelBtn.addEventListener('click', hideModalAddClient);
+
+  closeModal.addEventListener('click', hideModalAddClient);
 
   return { modalAddClient };
 }
