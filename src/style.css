@@ -68,6 +68,7 @@ html {
   background: none;
   outline: none;
   border: 1px solid rgba(51, 51, 51, 0.2);
+  font-family: 'Open Sans', sans-serif, serif;
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -118,6 +119,7 @@ html {
 
 .add-button__title {
   margin: 0;
+  font-family: 'Open Sans', sans-serif, serif;
   font-style: normal;
   font-weight: 600;
   font-size: 14px;
@@ -131,14 +133,132 @@ html {
 
 .table {
   margin-bottom: 40px;
+  border-collapse: collapse;
+  border-spacing: 0;
 }
 
 .table__title {
+  text-align: left;
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
   line-height: 16px;
   color: var(--text-grey);
+}
+.table__title:first-child {
+  padding: 0 10px 8px 20px;
+}
+.table__title:not(:first-child) {
+  padding: 0 10px 8px 10px;
+}
+
+.table__id {
+  padding: 20px 10px 20px 20px;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--text-grey);
+}
+
+.table__name {
+  padding: 10px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+  color: var(--text-black);
+}
+
+.table__date {
+  padding: 20px 10px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+  color: var(--text-black);
+}
+
+.table__time {
+  padding-left: 10px;
+  color: var(--text-grey);
+}
+
+.table__contacts {
+  padding: 20px 10px;
+}
+
+.table__contact-item {
+  max-width: 16px;
+  max-height: 16px;
+  margin-right: 7px;
+  cursor: pointer;
+  display: inline-block;
+}
+.table__contact-item:last-child {
+  margin-right: 0;
+}
+
+.table__buttons {
+  padding: 20px 10px;
+}
+
+.table__edit-button {
+  font-family: 'Open Sans', sans-serif, serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  background: none;
+  padding: 0 0 0 18px;
+  margin-right: 30px;
+  background: url('./assets/edit.svg') no-repeat left center / 16px 16px;
+}
+
+.table__remove-button {
+  font-family: 'Open Sans', sans-serif, serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  background: none;
+  padding: 0 0 0 18px;
+  background: url('./assets/remove.svg') no-repeat left center / 16px 16px;
+}
+
+.table__body-row {
+  background-color: var(--white);
+}
+
+.table__body-row:not(:last-child) {
+  border-bottom: 1px solid var(--modal-grey);
+}
+
+.table__body-empty {
+  padding: 132px 474px;
+  background-color: var(--white);
+}
+
+.table__body-loading {
+  padding: 132px 474px;
+  background-color: var(--white);
+  text-align: center;
+}
+
+@keyframes loader {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.table__loader svg {
+  width: 36px;
+  height: 36px;
+  animation: loader 1.2s linear infinite;
 }
 
 .modal-background {
