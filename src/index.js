@@ -13,7 +13,7 @@ import { getClients } from './modules/api';
   const clients = await getClients();
 
   if (clients) {
-    refreshTable(clients, tableBody);
+    refreshTable(clients, tableBody, mainElement);
   }
 
   addClientBtn.addEventListener('click', () => {

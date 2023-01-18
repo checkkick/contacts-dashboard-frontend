@@ -12,7 +12,7 @@ export async function getClients() {
 }
 
 export async function getClientById(id) {
-  const response = await fetch(`http://localhost:3000/api/client/${id}`, {
+  const response = await fetch(`http://localhost:3000/api/clients/${id}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -42,7 +42,7 @@ export async function addClient(body) {
 }
 
 export async function updateClient(id, body) {
-  const response = await fetch(`http://localhost:3000/api/client/${id}`, {
+  const response = await fetch(`http://localhost:3000/api/clients/${id}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
@@ -55,8 +55,8 @@ export async function updateClient(id, body) {
   return data;
 }
 
-export async function daeleteClient(id) {
-  const response = await fetch(`http://localhost:3000/api/client/${id}`, {
+export async function deleteClient(id) {
+  const response = await fetch(`http://localhost:3000/api/clients/${id}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',

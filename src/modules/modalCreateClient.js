@@ -126,7 +126,6 @@ export default function modalCreateClient() {
   const saveBtn = document.createElement('button');
   saveBtn.classList.add('save-btn');
   saveBtn.textContent = 'Сохранить';
-
   modalWindow.append(saveBtn);
 
   const cancelBtn = document.createElement('button');

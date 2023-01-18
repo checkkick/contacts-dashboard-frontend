@@ -1,4 +1,7 @@
-export function refreshTable(clients, tableBody) {
+import modalDeleteClient from './modalDeleteClient';
+import { deleteClient, getClients } from './api';
+
+export function refreshTable(clients, tableBody, mainElement) {
   tableBody.innerHTML = '';
 
   if (clients.length > 0) {
@@ -97,6 +100,27 @@ export function refreshTable(clients, tableBody) {
       const removeButton = document.createElement('button');
       removeButton.classList.add('table__remove-button');
       removeButton.textContent = 'Удалить';
+
+      removeButton.addEventListener('click', () => {
+        const { modalRemoveClient, removeBtn, closeModal, cancelBtn } =
+          modalDeleteClient();
+
+        mainElement.append(modalRemoveClient);
+
+        function closeModalRemove() {
+          mainElement.removeChild(modalRemoveClient);
+        }
+        closeModal.addEventListener('click', closeModalRemove);
+        cancelBtn.addEventListener('click', closeModalRemove);
+
+        removeBtn.addEventListener('click', async () => {
+          await deleteClient(item.id);
+          closeModalRemove();
+
+          const newClients = await getClients();
+          refreshTable(newClients, tableBody, mainElement);
+        });
+      });
 
       tdTableBodyButtons.append(removeButton);
 
