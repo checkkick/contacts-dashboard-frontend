@@ -3,7 +3,7 @@ import 'choices.js/src/styles/choices.scss';
 import { addClient } from './api';
 
 let IdCounter = 0;
-let contactsArray = [];
+const contactsArray = [];
 
 function createContact() {
   IdCounter += 1;
@@ -80,10 +80,9 @@ function createContact() {
 }
 
 // -------------------------------------------------------------
-export default function modalCreateClient() {
+export default function modalCreateClient(mainElement) {
   const modalAddClient = document.createElement('div');
   modalAddClient.classList.add('modal-background');
-  modalAddClient.style.display = 'none';
 
   const modalWindow = document.createElement('div');
   modalWindow.classList.add('modal');
@@ -140,18 +139,8 @@ export default function modalCreateClient() {
   modalAddClient.append(modalWindow);
 
   // -------------------------------------------------------------
-  // Функция очистки полей и скрытия модального окна
-  function hideModalAddClient() {
-    modalAddClient.style.display = 'none';
-    surname.value = '';
-    name.value = '';
-    lastName.value = '';
-
-    document
-      .querySelectorAll('.new-contact')
-      .forEach((item) => addContactContainer.removeChild(item));
-
-    contactsArray = [];
+  function closeModalAddClient() {
+    mainElement.removeChild(modalAddClient);
   }
 
   // -------------------------------------------------------------
@@ -187,13 +176,13 @@ export default function modalCreateClient() {
     const response = await addClient(JSON.stringify(data));
 
     if (response) {
-      hideModalAddClient();
+      closeModalAddClient();
     }
   });
 
-  cancelBtn.addEventListener('click', hideModalAddClient);
+  cancelBtn.addEventListener('click', closeModalAddClient);
 
-  closeModal.addEventListener('click', hideModalAddClient);
+  closeModal.addEventListener('click', closeModalAddClient);
 
   return { modalAddClient };
 }

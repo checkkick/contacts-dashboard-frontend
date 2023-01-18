@@ -8,7 +8,6 @@ import { getClients } from './modules/api';
   document.body.appendChild(header());
 
   const { mainElement, addClientBtn, tableBody } = main();
-  const { modalAddClient } = modalCreateClient();
 
   const clients = await getClients();
 
@@ -17,9 +16,9 @@ import { getClients } from './modules/api';
   }
 
   addClientBtn.addEventListener('click', () => {
-    modalAddClient.style.display = 'flex';
+    const { modalAddClient } = modalCreateClient(mainElement);
+    mainElement.append(modalAddClient);
   });
 
-  mainElement.append(modalAddClient);
   document.body.appendChild(mainElement);
 })();
