@@ -30,7 +30,7 @@ export async function addClient(body) {
     headers: {
       'Content-Type': 'application/json',
     },
-    body,
+    body: JSON.stringify(body),
   });
 
   if (response.status === 201) {
@@ -47,7 +47,7 @@ export async function updateClient(id, body) {
     headers: {
       'Content-Type': 'application/json',
     },
-    body,
+    body: JSON.stringify(body),
   });
 
   const data = await response.json();

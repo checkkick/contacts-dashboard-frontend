@@ -319,6 +319,13 @@ html {
   transform: rotate(-45deg);
 }
 
+.modal__title-block {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  margin-bottom: 32px;
+}
+
 .modal__title {
   font-style: normal;
   font-weight: 700;
@@ -326,6 +333,18 @@ html {
   line-height: 25px;
   color: var(--text-black);
   margin: 0 0 32px 0;
+}
+.modal__title-block > .modal__title {
+  margin: 0;
+}
+
+.modal__subtitle {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--text-grey);
+  margin: 0;
 }
 
 .modal__input {

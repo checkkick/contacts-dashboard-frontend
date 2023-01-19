@@ -1,12 +1,10 @@
 import Choices from 'choices.js';
 import 'choices.js/src/styles/choices.scss';
-import { addClient, getClients } from './api';
-import { refreshTable } from './table';
 
 let IdCounter = 0;
 const contactsArray = [];
 
-function createContact() {
+function createContact(data = {}) {
   IdCounter += 1;
 
   const contact = document.createElement('div');
@@ -24,7 +22,6 @@ function createContact() {
 
   contact.append(selectContactType);
 
-  // eslint-disable-next-line no-unused-vars
   const choices = new Choices(selectContactType, {
     allowHTML: true,
     searchEnabled: false,
@@ -77,34 +74,56 @@ function createContact() {
     }
   });
 
+  if (Object.keys(data).length > 0) {
+    choices.setChoiceByValue(data.type);
+    inputContact.value = data.value;
+
+    itemContact.type = data.type;
+    itemContact.value = data.value;
+
+    deleteContact.style.display = 'block';
+  }
+
   return { contact, indexOfContact, deleteContact };
 }
 
 // -------------------------------------------------------------
-export default function modalCreateClient(mainElement, tableBody) {
-  const modalAddClientWindow = document.createElement('div');
-  modalAddClientWindow.classList.add('modal-background');
+export default function modalEditClient(clientData) {
+  const modalEditClientWindow = document.createElement('div');
+  modalEditClientWindow.classList.add('modal-background');
 
   const modalWindow = document.createElement('div');
   modalWindow.classList.add('modal');
 
+  const modalTitleBlock = document.createElement('div');
+  modalTitleBlock.classList.add('modal__title-block');
+  modalWindow.append(modalTitleBlock);
+
   const modalTitle = document.createElement('h2');
   modalTitle.classList.add('modal__title');
-  modalTitle.textContent = 'Новый клиент';
-  modalWindow.append(modalTitle);
+  modalTitle.textContent = 'Изменить данные';
+  modalTitleBlock.append(modalTitle);
+
+  const modalSubitle = document.createElement('h3');
+  modalSubitle.classList.add('modal__subtitle');
+  modalSubitle.textContent = `ID: ${clientData.id}`;
+  modalTitleBlock.append(modalSubitle);
 
   const surname = document.createElement('input');
   surname.classList.add('modal__input');
+  surname.value = clientData.surname;
   surname.placeholder = 'Фамилия*';
   modalWindow.append(surname);
 
   const name = document.createElement('input');
   name.classList.add('modal__input');
+  name.value = clientData.name;
   name.placeholder = 'Имя*';
   modalWindow.append(name);
 
   const lastName = document.createElement('input');
   lastName.classList.add('modal__input');
+  lastName.value = clientData.lastName;
   lastName.placeholder = 'Отчество';
   modalWindow.append(lastName);
 
@@ -128,26 +147,17 @@ export default function modalCreateClient(mainElement, tableBody) {
   saveBtn.textContent = 'Сохранить';
   modalWindow.append(saveBtn);
 
-  const cancelBtn = document.createElement('button');
-  cancelBtn.classList.add('cancel-btn');
-  cancelBtn.textContent = 'Отмена';
-  modalWindow.append(cancelBtn);
+  const deleteBtn = document.createElement('button');
+  deleteBtn.classList.add('cancel-btn');
+  deleteBtn.textContent = 'Удалить клиента';
+  modalWindow.append(deleteBtn);
 
   const closeModal = document.createElement('button');
   closeModal.classList.add('modal__close');
   modalWindow.append(closeModal);
 
-  modalAddClientWindow.append(modalWindow);
+  modalEditClientWindow.append(modalWindow);
 
-  mainElement.append(modalAddClientWindow);
-
-  // -------------------------------------------------------------
-  function closeModalAddClientWindow() {
-    mainElement.removeChild(modalAddClientWindow);
-  }
-
-  // -------------------------------------------------------------
-  // События
   addContact.addEventListener('click', () => {
     const { contact, indexOfContact, deleteContact } = createContact();
     const item = addContactContainer.insertBefore(contact, addContact);
@@ -166,30 +176,26 @@ export default function modalCreateClient(mainElement, tableBody) {
     }
   });
 
-  saveBtn.addEventListener('click', async () => {
-    contactsArray.forEach((item) => delete item.id);
+  clientData.contacts.forEach((item) => {
+    const { contact, indexOfContact, deleteContact } = createContact(item);
+    const itemContact = addContactContainer.insertBefore(contact, addContact);
 
-    const data = {
-      name: name.value,
-      surname: surname.value,
-      lastName: lastName.value,
-      contacts: contactsArray,
-    };
+    deleteContact.addEventListener('click', () => {
+      contactsArray.splice(indexOfContact, 1);
+      addContactContainer.removeChild(itemContact);
 
-    const response = await addClient(data);
-
-    if (response) {
-      const newClients = await getClients();
-
-      if (newClients) {
-        refreshTable(newClients, tableBody, mainElement);
+      if (contactsArray.length < 10) {
+        saveBtn.disabled = false;
       }
-
-      closeModalAddClientWindow();
-    }
+    });
   });
 
-  cancelBtn.addEventListener('click', closeModalAddClientWindow);
+  const inputData = {
+    name,
+    surname,
+    lastName,
+    contacts: contactsArray,
+  };
 
-  closeModal.addEventListener('click', closeModalAddClientWindow);
+  return { modalEditClientWindow, saveBtn, deleteBtn, closeModal, inputData };
 }

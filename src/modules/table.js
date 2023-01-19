@@ -1,5 +1,6 @@
 import modalDeleteClient from './modalDeleteClient';
-import { deleteClient, getClients } from './api';
+import modalEditClient from './modalEditClient';
+import { deleteClient, getClients, updateClient } from './api';
 
 export function refreshTable(clients, tableBody, mainElement) {
   tableBody.innerHTML = '';
@@ -96,13 +97,12 @@ export function refreshTable(clients, tableBody, mainElement) {
       editButton.classList.add('table__edit-button');
       editButton.textContent = 'Изменить';
 
-      tdTableBodyButtons.append(editButton);
+      async function updateTableClients() {
+        const newClients = await getClients();
+        refreshTable(newClients, tableBody, mainElement);
+      }
 
-      const removeButton = document.createElement('button');
-      removeButton.classList.add('table__remove-button');
-      removeButton.textContent = 'Удалить';
-
-      removeButton.addEventListener('click', () => {
+      function openRemoveModalWindow() {
         const { modalRemoveClient, removeBtn, closeModal, cancelBtn } =
           modalDeleteClient();
 
@@ -116,12 +116,69 @@ export function refreshTable(clients, tableBody, mainElement) {
 
         removeBtn.addEventListener('click', async () => {
           await deleteClient(item.id);
-          closeModalRemove();
 
-          const newClients = await getClients();
-          refreshTable(newClients, tableBody, mainElement);
+          await updateTableClients();
+          closeModalRemove();
+        });
+      }
+
+      editButton.addEventListener('click', () => {
+        const {
+          modalEditClientWindow,
+          saveBtn,
+          deleteBtn,
+          closeModal,
+          inputData,
+        } = modalEditClient(item);
+
+        mainElement.append(modalEditClientWindow);
+
+        function closeModalEditClient() {
+          mainElement.removeChild(modalEditClientWindow);
+        }
+
+        saveBtn.addEventListener('click', async () => {
+          const newData = {};
+
+          const newContacts = inputData.contacts.map((contactItem) => ({
+            type: contactItem.type,
+            value: contactItem.value,
+          }));
+
+          if (inputData.name.value !== item.name) {
+            newData.name = inputData.name.value;
+          }
+          if (inputData.surname.value !== item.surname) {
+            newData.surname = inputData.surname.value;
+          }
+          if (inputData.lastName.value !== item.lastName) {
+            newData.lastName = inputData.lastName.value;
+          }
+          if (JSON.stringify(newContacts) !== JSON.stringify(item.contacts)) {
+            newData.contacts = newContacts;
+          }
+
+          if (Object.keys(newData).length > 0) {
+            await updateClient(item.id, newData);
+            await updateTableClients();
+            closeModalEditClient();
+          }
+        });
+
+        closeModal.addEventListener('click', closeModalEditClient);
+
+        deleteBtn.addEventListener('click', () => {
+          closeModalEditClient();
+          openRemoveModalWindow();
         });
       });
+
+      tdTableBodyButtons.append(editButton);
+
+      const removeButton = document.createElement('button');
+      removeButton.classList.add('table__remove-button');
+      removeButton.textContent = 'Удалить';
+      removeButton.addEventListener('click', openRemoveModalWindow);
 
       tdTableBodyButtons.append(removeButton);
 
