@@ -1,6 +1,9 @@
+import tippy from 'tippy.js';
 import modalDeleteClient from './modalDeleteClient';
 import modalEditClient from './modalEditClient';
 import { deleteClient, getClients, updateClient } from './api';
+
+import 'tippy.js/dist/tippy.css';
 
 export function refreshTable(clients, tableBody, mainElement) {
   tableBody.innerHTML = '';
@@ -58,6 +61,7 @@ export function refreshTable(clients, tableBody, mainElement) {
       for (const iterator of item.contacts) {
         const contact = document.createElement('div');
         contact.classList.add('table__contact-item');
+        tippy(contact, { content: iterator.value });
 
         switch (iterator.type) {
           case 'Email':
