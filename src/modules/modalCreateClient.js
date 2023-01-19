@@ -82,8 +82,8 @@ function createContact() {
 
 // -------------------------------------------------------------
 export default function modalCreateClient(mainElement, tableBody) {
-  const modalAddClient = document.createElement('div');
-  modalAddClient.classList.add('modal-background');
+  const modalAddClientWindow = document.createElement('div');
+  modalAddClientWindow.classList.add('modal-background');
 
   const modalWindow = document.createElement('div');
   modalWindow.classList.add('modal');
@@ -137,11 +137,13 @@ export default function modalCreateClient(mainElement, tableBody) {
   closeModal.classList.add('modal__close');
   modalWindow.append(closeModal);
 
-  modalAddClient.append(modalWindow);
+  modalAddClientWindow.append(modalWindow);
+
+  mainElement.append(modalAddClientWindow);
 
   // -------------------------------------------------------------
-  function closeModalAddClient() {
-    mainElement.removeChild(modalAddClient);
+  function closeModalAddClientWindow() {
+    mainElement.removeChild(modalAddClientWindow);
   }
 
   // -------------------------------------------------------------
@@ -183,13 +185,11 @@ export default function modalCreateClient(mainElement, tableBody) {
         refreshTable(newClients, tableBody, mainElement);
       }
 
-      closeModalAddClient();
+      closeModalAddClientWindow();
     }
   });
 
-  cancelBtn.addEventListener('click', closeModalAddClient);
+  cancelBtn.addEventListener('click', closeModalAddClientWindow);
 
-  closeModal.addEventListener('click', closeModalAddClient);
-
-  return { modalAddClient };
+  closeModal.addEventListener('click', closeModalAddClientWindow);
 }
