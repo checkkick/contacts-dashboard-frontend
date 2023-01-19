@@ -1,6 +1,7 @@
 import Choices from 'choices.js';
 import 'choices.js/src/styles/choices.scss';
-import { addClient } from './api';
+import { addClient, getClients } from './api';
+import { refreshTable } from './table';
 
 let IdCounter = 0;
 const contactsArray = [];
@@ -80,7 +81,7 @@ function createContact() {
 }
 
 // -------------------------------------------------------------
-export default function modalCreateClient(mainElement) {
+export default function modalCreateClient(mainElement, tableBody) {
   const modalAddClient = document.createElement('div');
   modalAddClient.classList.add('modal-background');
 
@@ -176,6 +177,12 @@ export default function modalCreateClient(mainElement) {
     const response = await addClient(JSON.stringify(data));
 
     if (response) {
+      const newClients = await getClients();
+
+      if (newClients) {
+        refreshTable(newClients, tableBody, mainElement);
+      }
+
       closeModalAddClient();
     }
   });

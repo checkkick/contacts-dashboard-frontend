@@ -16,7 +16,7 @@ import { getClients } from './modules/api';
   }
 
   addClientBtn.addEventListener('click', () => {
-    const { modalAddClient } = modalCreateClient(mainElement);
+    const { modalAddClient } = modalCreateClient(mainElement, tableBody);
     mainElement.append(modalAddClient);
   });
 
