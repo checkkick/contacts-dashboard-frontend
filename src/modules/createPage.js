@@ -20,7 +20,7 @@ export function header() {
   container.append(search);
   headerElement.append(container);
 
-  return headerElement;
+  return { headerElement, search };
 }
 
 export function main() {
