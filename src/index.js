@@ -20,8 +20,10 @@ import { getClients } from './modules/api';
   search.addEventListener('input', () => {
     clearTimeout(timeout);
 
-    timeout = setTimeout(() => {
-      const filterClients = clients.filter((item) => {
+    timeout = setTimeout(async () => {
+      const newClients = await getClients();
+
+      const filterClients = newClients.filter((item) => {
         for (const key in item) {
           if (Object.hasOwnProperty.call(item, key)) {
             let element = item[key];
