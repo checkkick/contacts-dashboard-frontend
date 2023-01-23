@@ -234,6 +234,15 @@ html {
 .table__contact-item:last-child {
   margin-right: 0;
 }
+.table__contact-item svg path,
+.table__contact-item svg g {
+  transition: opacity 0.2s ease-in-out;
+}
+.table__contact-item:hover svg path,
+.table__contact-item:hover svg g {
+  opacity: 1;
+}
+
 .table__contact-counter {
   padding: 3px;
   cursor: pointer;
