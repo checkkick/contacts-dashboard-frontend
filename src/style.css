@@ -550,6 +550,9 @@ html {
   font-size: 12px;
   line-height: 16px;
 }
+.new-contact .choices__list--dropdown .is-selected {
+  display: none;
+}
 .new-contact .choices__list--dropdown,
 .new-contact .choices__list[aria-expanded] {
   background-color: #f4f3f6;
