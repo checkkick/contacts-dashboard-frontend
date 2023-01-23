@@ -2,7 +2,7 @@ import Choices from 'choices.js';
 import 'choices.js/src/styles/choices.scss';
 
 let IdCounter = 0;
-const contactsArray = [];
+let contactsArray = [];
 
 function createContact(data = {}) {
   IdCounter += 1;
@@ -89,6 +89,8 @@ function createContact(data = {}) {
 
 // -------------------------------------------------------------
 export default function modalEditClient(clientData) {
+  contactsArray = [];
+
   const modalEditClientWindow = document.createElement('div');
   modalEditClientWindow.classList.add('modal-background');
 

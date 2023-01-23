@@ -5,7 +5,7 @@ import { addClient, getClients } from './api';
 import { refreshTable } from './table';
 
 let IdCounter = 0;
-const contactsArray = [];
+let contactsArray = [];
 
 function createContact() {
   IdCounter += 1;
@@ -83,6 +83,8 @@ function createContact() {
 
 // -------------------------------------------------------------
 export default function modalCreateClient(mainElement, tableBody, thHeadId) {
+  contactsArray = [];
+
   const modalAddClientWindow = document.createElement('div');
   modalAddClientWindow.classList.add('modal-background');
 
