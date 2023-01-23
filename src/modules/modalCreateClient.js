@@ -93,20 +93,63 @@ export default function modalCreateClient(mainElement, tableBody) {
   modalTitle.textContent = 'Новый клиент';
   modalWindow.append(modalTitle);
 
+  const inputBlockSurname = document.createElement('div');
+  inputBlockSurname.classList.add('modal__input-block');
+  modalWindow.append(inputBlockSurname);
+
   const surname = document.createElement('input');
   surname.classList.add('modal__input');
-  surname.placeholder = 'Фамилия*';
-  modalWindow.append(surname);
+  surname.id = 'surname';
+  surname.required = true;
+  inputBlockSurname.append(surname);
+
+  const spanAccentLabelSurname = document.createElement('span');
+  spanAccentLabelSurname.classList.add('modal__label-accent');
+  spanAccentLabelSurname.textContent = '*';
+
+  const surnameLabel = document.createElement('label');
+  surnameLabel.classList.add('modal__label');
+  surnameLabel.textContent = 'Фамилия';
+  surnameLabel.htmlFor = 'surname';
+  surnameLabel.append(spanAccentLabelSurname);
+  inputBlockSurname.append(surnameLabel);
+
+  const inputBlockName = document.createElement('div');
+  inputBlockName.classList.add('modal__input-block');
+  modalWindow.append(inputBlockName);
 
   const name = document.createElement('input');
   name.classList.add('modal__input');
-  name.placeholder = 'Имя*';
-  modalWindow.append(name);
+  name.id = 'name';
+  name.required = true;
+  inputBlockName.append(name);
+
+  const spanAccentLabelName = document.createElement('span');
+  spanAccentLabelName.classList.add('modal__label-accent');
+  spanAccentLabelName.textContent = '*';
+
+  const nameLabel = document.createElement('label');
+  nameLabel.classList.add('modal__label');
+  nameLabel.textContent = 'Имя';
+  nameLabel.htmlFor = 'name';
+  nameLabel.append(spanAccentLabelName);
+  inputBlockName.append(nameLabel);
+
+  const inputBlockLastName = document.createElement('div');
+  inputBlockLastName.classList.add('modal__input-block');
+  modalWindow.append(inputBlockLastName);
 
   const lastName = document.createElement('input');
   lastName.classList.add('modal__input');
-  lastName.placeholder = 'Отчество';
-  modalWindow.append(lastName);
+  lastName.id = 'name';
+  lastName.required = true;
+  inputBlockLastName.append(lastName);
+
+  const lastNameLabel = document.createElement('label');
+  lastNameLabel.classList.add('modal__label');
+  lastNameLabel.textContent = 'Отчество';
+  lastNameLabel.htmlFor = 'name';
+  inputBlockLastName.append(lastNameLabel);
 
   const addContactContainer = document.createElement('div');
   addContactContainer.classList.add('contacts-container');
