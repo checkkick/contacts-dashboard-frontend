@@ -34,7 +34,14 @@ export function main() {
   title.textContent = 'Клиенты';
   title.classList.add('main__title');
 
-  const { table, tableBody } = createTable();
+  const {
+    table,
+    tableBody,
+    thHeadId,
+    thHeadName,
+    thHeadDateCreate,
+    thHeadDateUpdate,
+  } = createTable();
 
   const addClientBtn = document.createElement('button');
   addClientBtn.innerHTML =
@@ -52,5 +59,13 @@ export function main() {
   container.append(addClientBtn);
   mainElement.append(container);
 
-  return { mainElement, tableBody, addClientBtn };
+  return {
+    mainElement,
+    tableBody,
+    addClientBtn,
+    thHeadId,
+    thHeadName,
+    thHeadDateCreate,
+    thHeadDateUpdate,
+  };
 }

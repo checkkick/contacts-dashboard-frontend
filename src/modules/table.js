@@ -1,3 +1,4 @@
+// @ts-nocheck
 import tippy from 'tippy.js';
 import modalDeleteClient from './modalDeleteClient';
 import modalEditClient from './modalEditClient';
@@ -5,7 +6,7 @@ import { deleteClient, getClients, updateClient, getClientById } from './api';
 
 import 'tippy.js/dist/tippy.css';
 
-export function refreshTable(clients, tableBody, mainElement) {
+export function refreshTable(clients, tableBody, mainElement, thHeadId) {
   tableBody.innerHTML = '';
 
   if (clients.length > 0) {
@@ -111,7 +112,20 @@ export function refreshTable(clients, tableBody, mainElement) {
 
       async function updateTableClients() {
         const newClients = await getClients();
-        refreshTable(newClients, tableBody, mainElement);
+
+        document
+          .querySelector('.table__title-sort--active')
+          .classList.remove('table__title-sort--active');
+
+        thHeadId.classList.add('table__title-sort--bottom');
+        thHeadId.classList.add('table__title-sort--active');
+
+        refreshTable(
+          newClients.sort((a, b) => a.id - b.id),
+          tableBody,
+          mainElement,
+          thHeadId
+        );
       }
 
       function openRemoveModalWindow() {
@@ -224,35 +238,40 @@ export function createTable() {
   const trHead = document.createElement('tr');
   trHead.classList.add('table__head-row');
 
-  const thHeadFirst = document.createElement('th');
-  thHeadFirst.classList.add('table__title');
-  thHeadFirst.textContent = 'ID';
-  tableHead.append(thHeadFirst);
+  const thHeadId = document.createElement('th');
+  thHeadId.classList.add(
+    'table__title',
+    'table__title-sort',
+    'table__title-sort--bottom',
+    'table__title-sort--active'
+  );
+  thHeadId.textContent = 'ID';
+  tableHead.append(thHeadId);
 
-  const thHeadSecond = document.createElement('th');
-  thHeadSecond.classList.add('table__title');
-  thHeadSecond.textContent = 'Фамилия Имя Отчество';
-  tableHead.append(thHeadSecond);
+  const thHeadName = document.createElement('th');
+  thHeadName.classList.add('table__title', 'table__title-sort');
+  thHeadName.textContent = 'Фамилия Имя Отчество';
+  tableHead.append(thHeadName);
 
-  const thHeadThird = document.createElement('th');
-  thHeadThird.classList.add('table__title');
-  thHeadThird.textContent = 'Дата и время создания';
-  tableHead.append(thHeadThird);
+  const thHeadDateCreate = document.createElement('th');
+  thHeadDateCreate.classList.add('table__title', 'table__title-sort');
+  thHeadDateCreate.textContent = 'Дата и время создания';
+  tableHead.append(thHeadDateCreate);
 
-  const thHeadFourth = document.createElement('th');
-  thHeadFourth.classList.add('table__title');
-  thHeadFourth.textContent = 'Последние изменения';
-  tableHead.append(thHeadFourth);
+  const thHeadDateUpdate = document.createElement('th');
+  thHeadDateUpdate.classList.add('table__title', 'table__title-sort');
+  thHeadDateUpdate.textContent = 'Последние изменения';
+  tableHead.append(thHeadDateUpdate);
 
-  const thHeadFifth = document.createElement('th');
-  thHeadFifth.classList.add('table__title');
-  thHeadFifth.textContent = 'Контакты';
-  tableHead.append(thHeadFifth);
+  const thHeadContacts = document.createElement('th');
+  thHeadContacts.classList.add('table__title');
+  thHeadContacts.textContent = 'Контакты';
+  tableHead.append(thHeadContacts);
 
-  const thHeadSixth = document.createElement('th');
-  thHeadSixth.classList.add('table__title');
-  thHeadSixth.textContent = 'Действия';
-  tableHead.append(thHeadSixth);
+  const thHeadActions = document.createElement('th');
+  thHeadActions.classList.add('table__title');
+  thHeadActions.textContent = 'Действия';
+  tableHead.append(thHeadActions);
 
   const tableBody = document.createElement('tbody');
   tableBody.classList.add('table__body');
@@ -278,5 +297,12 @@ export function createTable() {
   table.append(tableHead);
   table.append(tableBody);
 
-  return { table, tableBody };
+  return {
+    table,
+    tableBody,
+    thHeadId,
+    thHeadName,
+    thHeadDateCreate,
+    thHeadDateUpdate,
+  };
 }

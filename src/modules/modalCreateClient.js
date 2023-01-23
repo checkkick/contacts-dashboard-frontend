@@ -1,3 +1,4 @@
+// @ts-nocheck
 import Choices from 'choices.js';
 import 'choices.js/src/styles/choices.scss';
 import { addClient, getClients } from './api';
@@ -81,7 +82,7 @@ function createContact() {
 }
 
 // -------------------------------------------------------------
-export default function modalCreateClient(mainElement, tableBody) {
+export default function modalCreateClient(mainElement, tableBody, thHeadId) {
   const modalAddClientWindow = document.createElement('div');
   modalAddClientWindow.classList.add('modal-background');
 
@@ -212,6 +213,13 @@ export default function modalCreateClient(mainElement, tableBody) {
   saveBtn.addEventListener('click', async () => {
     contactsArray.forEach((item) => delete item.id);
 
+    document
+      .querySelector('.table__title-sort--active')
+      .classList.remove('table__title-sort--active');
+
+    thHeadId.classList.add('table__title-sort--bottom');
+    thHeadId.classList.add('table__title-sort--active');
+
     const data = {
       name: name.value,
       surname: surname.value,
@@ -225,7 +233,12 @@ export default function modalCreateClient(mainElement, tableBody) {
       const newClients = await getClients();
 
       if (newClients) {
-        refreshTable(newClients, tableBody, mainElement);
+        refreshTable(
+          newClients.sort((a, b) => a.id - b.id),
+          tableBody,
+          mainElement,
+          thHeadId
+        );
       }
 
       closeModalAddClientWindow();
