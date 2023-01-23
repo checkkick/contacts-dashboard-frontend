@@ -1,7 +1,7 @@
 import tippy from 'tippy.js';
 import modalDeleteClient from './modalDeleteClient';
 import modalEditClient from './modalEditClient';
-import { deleteClient, getClients, updateClient } from './api';
+import { deleteClient, getClients, updateClient, getClientById } from './api';
 
 import 'tippy.js/dist/tippy.css';
 
@@ -134,14 +134,16 @@ export function refreshTable(clients, tableBody, mainElement) {
         });
       }
 
-      editButton.addEventListener('click', () => {
+      editButton.addEventListener('click', async () => {
+        const clientDataById = await getClientById(item.id);
+
         const {
           modalEditClientWindow,
           saveBtn,
           deleteBtn,
           closeModal,
           inputData,
-        } = modalEditClient(item);
+        } = modalEditClient(clientDataById);
 
         mainElement.append(modalEditClientWindow);
 
