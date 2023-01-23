@@ -224,14 +224,30 @@ html {
 }
 
 .table__contact-item {
-  max-width: 16px;
-  max-height: 16px;
+  width: 16px;
+  height: 16px;
   margin-right: 7px;
   cursor: pointer;
   display: inline-block;
+  vertical-align: middle;
 }
 .table__contact-item:last-child {
   margin-right: 0;
+}
+.table__contact-counter {
+  padding: 3px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Open Sans', sans-serif, serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 8px;
+  line-height: 11px;
+  color: var(--text-black);
+  border-radius: 100%;
+  border: 1px solid var(--primary);
 }
 
 .table__buttons {
