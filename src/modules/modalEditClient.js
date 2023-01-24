@@ -13,7 +13,7 @@ function createContact(data = {}) {
   const selectContactType = document.createElement('select');
   selectContactType.classList.add('new-contact__select');
 
-  const options = ['Телефон', 'Доп. телефон', 'Email', 'Vk', 'Facebook'];
+  const options = ['Телефон', 'Email', 'Vk', 'Facebook', 'Другое'];
   options.forEach((item) => {
     const optionElement = document.createElement('option');
     optionElement.textContent = item;
