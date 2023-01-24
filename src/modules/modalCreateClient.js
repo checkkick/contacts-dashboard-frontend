@@ -169,6 +169,10 @@ export default function modalCreateClient(mainElement, tableBody, thHeadId) {
   addContactContainer.append(addContact);
   modalWindow.append(addContactContainer);
 
+  const errorBlock = document.createElement('div');
+  errorBlock.classList.add('modal__error-block');
+  modalWindow.append(errorBlock);
+
   const saveBtn = document.createElement('button');
   saveBtn.classList.add('save-btn');
   saveBtn.textContent = 'Сохранить';
@@ -215,13 +219,6 @@ export default function modalCreateClient(mainElement, tableBody, thHeadId) {
   saveBtn.addEventListener('click', async () => {
     contactsArray.forEach((item) => delete item.id);
 
-    document
-      .querySelector('.table__title-sort--active')
-      .classList.remove('table__title-sort--active');
-
-    thHeadId.classList.add('table__title-sort--bottom');
-    thHeadId.classList.add('table__title-sort--active');
-
     const data = {
       name: name.value,
       surname: surname.value,
@@ -231,7 +228,14 @@ export default function modalCreateClient(mainElement, tableBody, thHeadId) {
 
     const response = await addClient(data);
 
-    if (response) {
+    if (response.status === 200 || response.status === 201) {
+      document
+        .querySelector('.table__title-sort--active')
+        .classList.remove('table__title-sort--active');
+
+      thHeadId.classList.add('table__title-sort--bottom');
+      thHeadId.classList.add('table__title-sort--active');
+
       const newClients = await getClients();
 
       if (newClients) {
@@ -244,6 +248,16 @@ export default function modalCreateClient(mainElement, tableBody, thHeadId) {
       }
 
       closeModalAddClientWindow();
+    } else {
+      errorBlock.innerHTML = '';
+      const responseBody = await response.json();
+
+      for (const iterator of responseBody.errors) {
+        const errorMessage = document.createElement('p');
+        errorMessage.classList.add('modal__error-text');
+        errorMessage.textContent += `Ошибка: ${iterator.message}\n`;
+        errorBlock.append(errorMessage);
+      }
     }
   });
 

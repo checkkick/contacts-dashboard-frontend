@@ -186,6 +186,7 @@ export function refreshTable(clients, tableBody, mainElement, thHeadId) {
           deleteBtn,
           closeModal,
           inputData,
+          errorBlock,
         } = modalEditClient(clientDataById);
 
         mainElement.append(modalEditClientWindow);
@@ -216,9 +217,22 @@ export function refreshTable(clients, tableBody, mainElement, thHeadId) {
           }
 
           if (Object.keys(newData).length > 0) {
-            await updateClient(item.id, newData);
-            await updateTableClients();
-            closeModalEditClient();
+            const response = await updateClient(item.id, newData);
+
+            if (response.status === 200 || response.status === 201) {
+              await updateTableClients();
+              closeModalEditClient();
+            } else {
+              errorBlock.innerHTML = '';
+              const responseBody = await response.json();
+
+              for (const iterator of responseBody.errors) {
+                const errorMessage = document.createElement('p');
+                errorMessage.classList.add('modal__error-text');
+                errorMessage.textContent += `Ошибка: ${iterator.message}\n`;
+                errorBlock.append(errorMessage);
+              }
+            }
           }
         });
 

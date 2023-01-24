@@ -486,6 +486,27 @@ html {
   margin: 0 0 25px 0;
 }
 
+.modal__error-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modal__error-text {
+  margin: 0;
+  text-align: center;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 14px;
+  color: #f06a4d;
+}
+.modal__error-text:first-child {
+  margin-top: -17px;
+}
+.modal__error-text:last-child {
+  margin-bottom: 9px;
+}
+
 .contacts-container {
   display: flex;
   align-items: center;
@@ -620,6 +641,7 @@ html {
   font-size: 14px;
   line-height: 19px;
   color: var(--text-black);
+  background-color: rgba(200, 197, 209, 0.1);
 }
 .new-contact__input::placeholder {
   font-weight: 400;

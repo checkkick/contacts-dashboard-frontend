@@ -33,12 +33,7 @@ export async function addClient(body) {
     body: JSON.stringify(body),
   });
 
-  if (response.status === 201) {
-    const data = await response.json();
-    return data;
-  }
-
-  return false;
+  return response;
 }
 
 export async function updateClient(id, body) {
@@ -50,9 +45,7 @@ export async function updateClient(id, body) {
     body: JSON.stringify(body),
   });
 
-  const data = await response.json();
-
-  return data;
+  return response;
 }
 
 export async function deleteClient(id) {

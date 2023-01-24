@@ -187,6 +187,10 @@ export default function modalEditClient(clientData) {
   addContactContainer.append(addContact);
   modalWindow.append(addContactContainer);
 
+  const errorBlock = document.createElement('div');
+  errorBlock.classList.add('modal__error-block');
+  modalWindow.append(errorBlock);
+
   const saveBtn = document.createElement('button');
   saveBtn.classList.add('save-btn');
   saveBtn.textContent = 'Сохранить';
@@ -242,5 +246,12 @@ export default function modalEditClient(clientData) {
     contacts: contactsArray,
   };
 
-  return { modalEditClientWindow, saveBtn, deleteBtn, closeModal, inputData };
+  return {
+    modalEditClientWindow,
+    saveBtn,
+    deleteBtn,
+    closeModal,
+    inputData,
+    errorBlock,
+  };
 }
