@@ -34,6 +34,9 @@ export function main() {
   title.textContent = 'Клиенты';
   title.classList.add('main__title');
 
+  const tableContainer = document.createElement('div');
+  tableContainer.classList.add('table-container');
+
   const {
     table,
     tableBody,
@@ -55,7 +58,8 @@ export function main() {
   addClientBtn.append(buttonTitle);
 
   container.append(title);
-  container.append(table);
+  tableContainer.append(table);
+  container.append(tableContainer);
   container.append(addClientBtn);
   mainElement.append(container);
 
