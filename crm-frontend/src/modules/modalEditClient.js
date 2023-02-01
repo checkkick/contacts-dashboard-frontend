@@ -215,13 +215,15 @@ export default function modalEditClient(clientData) {
       contactsArray.splice(indexOfContact, 1);
       addContactContainer.removeChild(item);
 
+      console.log(contactsArray);
+
       if (contactsArray.length < 10) {
-        saveBtn.disabled = false;
+        saveBtn.style.display = 'block';
       }
     });
 
     if (contactsArray.length >= 10) {
-      saveBtn.disabled = true;
+      saveBtn.style.display = 'none';
     }
   });
 
@@ -234,7 +236,7 @@ export default function modalEditClient(clientData) {
       addContactContainer.removeChild(itemContact);
 
       if (contactsArray.length < 10) {
-        saveBtn.disabled = false;
+        saveBtn.style.display = 'block';
       }
     });
   });

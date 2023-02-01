@@ -207,12 +207,12 @@ export default function modalCreateClient(mainElement, tableBody, thHeadId) {
       addContactContainer.removeChild(item);
 
       if (contactsArray.length < 10) {
-        saveBtn.disabled = false;
+        saveBtn.style.display = 'block';
       }
     });
 
     if (contactsArray.length >= 10) {
-      saveBtn.disabled = true;
+      saveBtn.style.display = 'none';
     }
   });
 
