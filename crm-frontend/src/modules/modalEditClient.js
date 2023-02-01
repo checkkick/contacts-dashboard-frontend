@@ -215,8 +215,6 @@ export default function modalEditClient(clientData) {
       contactsArray.splice(indexOfContact, 1);
       addContactContainer.removeChild(item);
 
-      console.log(contactsArray);
-
       if (contactsArray.length < 10) {
         saveBtn.style.display = 'block';
       }
